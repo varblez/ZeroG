@@ -1,0 +1,101 @@
+[gd_scene load_steps=11 format=3 uid="uid://f3wd5wge8jb4"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_fsbdw"]
+[ext_resource type="Texture2D" uid="uid://b7wf1268g5u6g" path="res://Assets/knight.png" id="1_v572q"]
+[ext_resource type="PackedScene" uid="uid://dxir31mdsb3kt" path="res://Scene/velocity_label.tscn" id="4_m47xr"]
+[ext_resource type="Script" path="res://Scripts/rays.gd" id="4_ygx7o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6o8a"]
+atlas = ExtResource("1_v572q")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oet3m"]
+atlas = ExtResource("1_v572q")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1t4qo"]
+atlas = ExtResource("1_v572q")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygk1a"]
+atlas = ExtResource("1_v572q")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vl25r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6o8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oet3m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1t4qo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ygk1a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wdbnd"]
+radius = 5.0
+height = 14.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 3
+collision_mask = 3
+platform_floor_layers = 4294967292
+safe_margin = 0.1
+script = ExtResource("1_fsbdw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
+sprite_frames = SubResource("SpriteFrames_vl25r")
+autoplay = "default"
+frame_progress = 0.480525
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_wdbnd")
+
+[node name="VelocityLabel" parent="." instance=ExtResource("4_m47xr")]
+offset_left = 4.0
+offset_top = -16.0
+offset_right = 36.0
+offset_bottom = -8.0
+
+[node name="TouchTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="Rays" type="Node2D" parent="."]
+script = ExtResource("4_ygx7o")
+
+[node name="RayRight" type="RayCast2D" parent="Rays"]
+target_position = Vector2(10, 0)
+
+[node name="RayRightDown" type="RayCast2D" parent="Rays"]
+target_position = Vector2(7, 7)
+
+[node name="RayDown" type="RayCast2D" parent="Rays"]
+target_position = Vector2(0, 10)
+
+[node name="RayDownLeft" type="RayCast2D" parent="Rays"]
+target_position = Vector2(-7, 7)
+
+[node name="RayLeft" type="RayCast2D" parent="Rays"]
+target_position = Vector2(-10, 0)
+
+[node name="RayLeftUp" type="RayCast2D" parent="Rays"]
+target_position = Vector2(-7, -7)
+
+[node name="RayUp" type="RayCast2D" parent="Rays"]
+target_position = Vector2(0, -10)
+
+[node name="RayUpRight" type="RayCast2D" parent="Rays"]
+target_position = Vector2(7, -7)
+
+[connection signal="timeout" from="TouchTimer" to="." method="_on_touch_timer_timeout"]

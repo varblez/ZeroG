@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://bx230o7s4uqps"]
+
+[ext_resource type="Script" path="res://Scripts/chain_anchor.gd" id="1_fcpgi"]
+[ext_resource type="Texture2D" uid="uid://d2iof87lwinsy" path="res://Assets/block.png" id="1_fd7qk"]
+[ext_resource type="PackedScene" uid="uid://wsck7i88x3cv" path="res://Scene/chain_link.tscn" id="2_e8w65"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s20g1"]
+size = Vector2(8, 8)
+
+[node name="ChainAnchor" type="StaticBody2D"]
+script = ExtResource("1_fcpgi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_fd7qk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_s20g1")
+
+[node name="ChainLink" parent="." instance=ExtResource("2_e8w65")]
+
+[node name="ChainLink2" parent="." instance=ExtResource("2_e8w65")]
+position = Vector2(0, 7)
+
+[node name="ChainLink3" parent="." instance=ExtResource("2_e8w65")]
+position = Vector2(0, 14)
+
+[node name="ChainLink4" parent="." instance=ExtResource("2_e8w65")]
+position = Vector2(0, 21)
+
+[node name="ChainLink5" parent="." instance=ExtResource("2_e8w65")]
+position = Vector2(0, 28)
+
+[node name="ChainLink6" parent="." instance=ExtResource("2_e8w65")]
+position = Vector2(0, 35)
+
+[node name="ChainLink7" parent="." instance=ExtResource("2_e8w65")]
+position = Vector2(0, 42)
+
+[node name="ChainLink8" parent="." instance=ExtResource("2_e8w65")]
+position = Vector2(0, 49)

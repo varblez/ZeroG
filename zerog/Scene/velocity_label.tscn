@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxir31mdsb3kt"]
+
+[ext_resource type="FontFile" uid="uid://bgp5b5oanyybr" path="res://Assets/PixelOperator8.ttf" id="1_k12mb"]
+[ext_resource type="Script" path="res://Scripts/velocity_label.gd" id="2_k3q1q"]
+
+[node name="VelocityLabel" type="Label"]
+offset_left = -15.0
+offset_top = -5.0
+offset_right = 17.0
+offset_bottom = 3.0
+theme_override_fonts/font = ExtResource("1_k12mb")
+theme_override_font_sizes/font_size = 8
+text = "0:0"
+script = ExtResource("2_k3q1q")
+metadata/_edit_use_anchors_ = true

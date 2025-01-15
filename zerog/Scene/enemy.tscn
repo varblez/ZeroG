@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://cx7as1rgkgn2y"]
+
+[ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_ecpso"]
+[ext_resource type="Texture2D" uid="uid://bbg4o8uj4jgo0" path="res://Assets/sci-fi-tileset.png" id="1_rtf2i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsw8m"]
+atlas = ExtResource("1_rtf2i")
+region = Rect2(16, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4flp8"]
+atlas = ExtResource("1_rtf2i")
+region = Rect2(32, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ceqsc"]
+atlas = ExtResource("1_rtf2i")
+region = Rect2(48, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lr1qb"]
+atlas = ExtResource("1_rtf2i")
+region = Rect2(64, 96, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uvodv"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_hsw8m")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_4flp8")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_ceqsc")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_lr1qb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7yulx"]
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 7
+collision_mask = 7
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_ecpso")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -1)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_uvodv")
+autoplay = "default"
+frame_progress = 0.306448
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7yulx")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+navigation_layers = 3
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

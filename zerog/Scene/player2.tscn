@@ -1,0 +1,82 @@
+[gd_scene load_steps=10 format=3 uid="uid://b0l0vkd28nbbc"]
+
+[ext_resource type="Script" path="res://Scripts/player_2.gd" id="1_nr27m"]
+[ext_resource type="Texture2D" uid="uid://b7wf1268g5u6g" path="res://Assets/knight.png" id="2_xothc"]
+[ext_resource type="PackedScene" uid="uid://dxir31mdsb3kt" path="res://Scene/velocity_label.tscn" id="3_kh5ib"]
+[ext_resource type="Texture2D" uid="uid://88vegplvy116" path="res://Assets/knight hand.png" id="4_6v5r5"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pklmf"]
+friction = 0.55
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx1nb"]
+atlas = ExtResource("2_xothc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hbgx2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx1nb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nvwrc"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1knrq"]
+radius = 3.0
+
+[node name="Player" type="RigidBody2D"]
+collision_layer = 5
+collision_mask = 5
+mass = 65.0
+physics_material_override = SubResource("PhysicsMaterial_pklmf")
+script = ExtResource("1_nr27m")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
+sprite_frames = SubResource("SpriteFrames_hbgx2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nvwrc")
+
+[node name="VelocityLabel" parent="." instance=ExtResource("3_kh5ib")]
+visible = false
+offset_left = 4.0
+offset_top = -16.0
+offset_right = 36.0
+offset_bottom = -8.0
+
+[node name="TouchTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="KickRay" type="RayCast2D" parent="."]
+target_position = Vector2(-15, 0)
+
+[node name="Grabber" type="Area2D" parent="."]
+position = Vector2(2, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grabber"]
+position = Vector2(6, 0)
+shape = SubResource("CircleShape2D_1knrq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Grabber"]
+position = Vector2(7, 0)
+texture = ExtResource("4_6v5r5")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2(8, 0)
+node_a = NodePath("..")
+bias = 0.714
+disable_collision = false
+softness = 0.01
+
+[node name="FloorRay" type="RayCast2D" parent="."]
+position = Vector2(0, 5)
+target_position = Vector2(0, 2.205)
+
+[connection signal="body_entered" from="Grabber" to="." method="_on_grabber_body_entered"]

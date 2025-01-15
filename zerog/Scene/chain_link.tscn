@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://wsck7i88x3cv"]
+
+[ext_resource type="Texture2D" uid="uid://5d4rku00ivq5" path="res://Assets/pipe-segment.png" id="1_4nn3o"]
+[ext_resource type="Script" path="res://Scripts/chain_link.gd" id="1_up6n7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yrujb"]
+radius = 1.0
+height = 8.0
+
+[node name="ChainLink" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 3
+mass = 0.25
+can_sleep = false
+script = ExtResource("1_up6n7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 3)
+scale = Vector2(0.25, 0.5)
+texture = ExtResource("1_4nn3o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_yrujb")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(0.0876955, 0.101785)
+node_b = NodePath("..")
+bias = 0.1
+softness = 0.01

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://m8k7uvbaknsk"]
+
+[ext_resource type="Texture2D" uid="uid://bbg4o8uj4jgo0" path="res://Assets/sci-fi-tileset.png" id="1_k7qkv"]
+[ext_resource type="Script" path="res://Scripts/vent.gd" id="1_v48d0"]
+
+[node name="vent" type="Node2D"]
+script = ExtResource("1_v48d0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_k7qkv")
+region_enabled = true
+region_rect = Rect2(0, 64, 16, 16)
+
+[node name="AirParticle" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 24
+lifetime = 0.8
+fixed_fps = 30
+draw_order = 1
+emission_shape = 1
+emission_sphere_radius = 128.0
+spread = 180.0
+gravity = Vector2(0, 0)
+radial_accel_min = -100.0
+radial_accel_max = -100.0
