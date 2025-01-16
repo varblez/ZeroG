@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cle3wjds575j6"]
+
+[ext_resource type="Script" path="res://Scripts/rigid_segment_test.gd" id="1_qpnwe"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ipf4u"]
+b = Vector2(10, 0)
+
+[node name="RigidSegmentTest" type="RigidBody2D"]
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("1_qpnwe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("SegmentShape2D_ipf4u")

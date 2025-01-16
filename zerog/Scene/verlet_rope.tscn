@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3v3heyf8p72x"]
+
+[ext_resource type="Script" path="res://Scripts/verlet_rope.gd" id="1_m2aea"]
+[ext_resource type="Texture2D" uid="uid://b11t54vgv7wim" path="res://Assets/pipe-segment-1.png" id="2_mxj44"]
+
+[node name="VerletRope" type="Node2D"]
+script = ExtResource("1_m2aea")
+
+[node name="Line2D" type="Line2D" parent="."]
+texture = ExtResource("2_mxj44")
+texture_mode = 2
