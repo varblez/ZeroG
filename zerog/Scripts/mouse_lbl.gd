@@ -13,4 +13,4 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	position = get_global_mouse_position()
 	var vector = get_global_mouse_position()-player.position
-	text = str(snapped(vector.angle(),step))
+	text = str(str(snapped(get_global_mouse_position().x,step)) + " , " + str(snapped(get_global_mouse_position().y,step)))

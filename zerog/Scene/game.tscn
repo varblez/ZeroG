@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://b773m64noiy4h"]
+[gd_scene load_steps=20 format=4 uid="uid://b773m64noiy4h"]
 
 [ext_resource type="Script" path="res://Scripts/gravity_field.gd" id="1_jeqr3"]
 [ext_resource type="Texture2D" uid="uid://bbg4o8uj4jgo0" path="res://Assets/sci-fi-tileset.png" id="1_xs0qe"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/mouse_lbl.gd" id="7_ni0se"]
 [ext_resource type="PackedScene" uid="uid://b8mmgho8skv4b" path="res://Scene/box_big.tscn" id="9_066y3"]
 [ext_resource type="PackedScene" uid="uid://m8k7uvbaknsk" path="res://Scene/vent.tscn" id="10_ysqt1"]
+[ext_resource type="PackedScene" uid="uid://d3v3heyf8p72x" path="res://Scene/verlet_rope.tscn" id="11_lef84"]
 [ext_resource type="PackedScene" uid="uid://cx7as1rgkgn2y" path="res://Scene/enemy.tscn" id="11_tkr7c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e3oh1"]
@@ -219,16 +220,6 @@ rotation = -1.21456
 position = Vector2(311, 236)
 rotation = 0.560653
 
-[node name="MouseLbl" type="Label" parent="."]
-offset_left = 69.0
-offset_top = 93.0
-offset_right = 102.0
-offset_bottom = 103.0
-theme_override_fonts/font = ExtResource("6_f82jc")
-theme_override_font_sizes/font_size = 8
-text = "0.0"
-script = ExtResource("7_ni0se")
-
 [node name="Player" parent="." node_paths=PackedStringArray("tools", "tool_2", "tool_3", "vent") instance=ExtResource("6_uotso")]
 z_index = 1
 position = Vector2(296, 228)
@@ -252,3 +243,17 @@ rotation = -0.592495
 position = Vector2(490, 171)
 target = NodePath("../Player")
 AI_On = false
+
+[node name="VerletRope" parent="." node_paths=PackedStringArray("player") instance=ExtResource("11_lef84")]
+position = Vector2(245, 80)
+player = NodePath("../Player")
+
+[node name="MouseLbl" type="Label" parent="."]
+offset_left = 69.0
+offset_top = 93.0
+offset_right = 102.0
+offset_bottom = 103.0
+theme_override_fonts/font = ExtResource("6_f82jc")
+theme_override_font_sizes/font_size = 8
+text = "0.0"
+script = ExtResource("7_ni0se")
