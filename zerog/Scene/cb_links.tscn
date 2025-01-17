@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbr656nolpkj6"]
+
+[ext_resource type="Script" path="res://Scripts/cb_links.gd" id="1_lkf2e"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wcnnw"]
+radius = 0.2
+
+[node name="CB_LINKS" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_lkf2e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wcnnw")
