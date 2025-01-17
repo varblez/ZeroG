@@ -209,7 +209,7 @@ position = Vector2(288, 162)
 zoom = Vector2(2, 2)
 
 [node name="Box" parent="." instance=ExtResource("4_7rcon")]
-position = Vector2(282, 107)
+position = Vector2(260, 53)
 rotation = -0.617029
 
 [node name="Box2" parent="." instance=ExtResource("4_7rcon")]
