@@ -34,6 +34,7 @@ collision_layer = 5
 collision_mask = 5
 mass = 65.0
 physics_material_override = SubResource("PhysicsMaterial_pklmf")
+lock_rotation = true
 script = ExtResource("1_nr27m")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

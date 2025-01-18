@@ -14,7 +14,7 @@ var FREEZE_AREA = preload("res://Scene/freeze_area.tscn")
 @export var SPEED = 1500.0
 @export var move_speed_max = 120.0
 @export var JUMP_VELOCITY = 18000.0
-@export var kick_force : = 50.0
+@export var kick_force : = 100.0
 @export var max_kick_force := 100.0
 @export var push_force = 100.0
 #internally used globabl variables
@@ -116,6 +116,7 @@ func grabber_logic():
 ##add force in direction of mouse, handle unlatching, and launch rigidbodies away
 func kick_off():
 	apply_central_impulse(point_vec*kick_force)
+	rotation = point_vec.angle() + PI/2
 	if pin_joint_2d.node_b and latched_object == kick_ray.get_collider():
 		pin_joint_2d.node_b = pin_joint_2d.node_a
 		latched = false
