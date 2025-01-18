@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://blevl387tqd0a"]
+
+[ext_resource type="Texture2D" uid="uid://dgiss5rpa550l" path="res://Assets/Pipe_Handle.png" id="1_iohee"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ffn5h"]
+size = Vector2(10, 6)
+
+[node name="Handle" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_iohee")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" groups=["Static Grab"]]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_ffn5h")

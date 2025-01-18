@@ -3,7 +3,12 @@ extends RigidBody2D
 @onready var kick_ray: RayCast2D = $KickRay
 @onready var pin_joint_2d: PinJoint2D = $PinJoint2D
 @onready var grabber: Area2D = $Grabber
-@onready var floor_ray: RayCast2D = $FloorRay
+#@onready var floor_ray: RayCast2D = $FloorRay
+@onready var rays: Node2D = $Rays
+@onready var wall_ray_r : RayCast2D = rays.get_child(0)
+@onready var floor_ray : RayCast2D = rays.get_child(1)
+@onready var wall_ray_l : RayCast2D = rays.get_child(2)
+@onready var ceiling_ray : RayCast2D = rays.get_child(3)
 var FREEZE_AREA = preload("res://Scene/freeze_area.tscn")
 #external nodes added in the inspector
 @export var tools: Node2D
@@ -17,6 +22,7 @@ var FREEZE_AREA = preload("res://Scene/freeze_area.tscn")
 @export var kick_force : = 100.0
 @export var max_kick_force := 100.0
 @export var push_force = 100.0
+@export var slide_disconnect_speed : float = 30.0
 #internally used globabl variables
 var latched_object : Node2D
 var grabbing := false
@@ -24,6 +30,7 @@ var latched := false
 var point_vec : Vector2
 var GravityOn = false
 var GadgetLock = false
+
 
 
 func _physics_process(delta: float) -> void:
@@ -70,7 +77,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		
 		tool_2.setvector(linear_velocity*0.5)
-		lock_rotation = false
+		#lock_rotation = false
 		if Input.is_action_pressed("vent") and vent:
 			apply_central_force((vent.position-position)*10)
 	
@@ -81,8 +88,13 @@ func _physics_process(delta: float) -> void:
 	kick_ray.look_at(get_global_mouse_position())
 
 	grabber_logic()
+	
+	
 
 	#move_and_slide()
+
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	cust_move_and_slide()
 
 func _on_grabber_body_entered(body: Node2D) -> void:
 	if grabbing:
@@ -91,7 +103,7 @@ func _on_grabber_body_entered(body: Node2D) -> void:
 		latched = true
 
 func gravity_controls():
-	lock_rotation = true
+	#lock_rotation = true
 	if Input.is_action_pressed("right") and linear_velocity.x < move_speed_max:
 		apply_central_impulse(Vector2.RIGHT*SPEED)
 	if Input.is_action_pressed("left") and linear_velocity.x > -move_speed_max:
@@ -116,8 +128,11 @@ func grabber_logic():
 ##add force in direction of mouse, handle unlatching, and launch rigidbodies away
 func kick_off():
 	apply_central_impulse(point_vec*kick_force)
-	rotation = point_vec.angle() + PI/2
+	#rotation = point_vec.angle() + PI/2
 	if pin_joint_2d.node_b and latched_object == kick_ray.get_collider():
+		pin_joint_2d.node_b = pin_joint_2d.node_a
+		latched = false
+	elif pin_joint_2d.node_b and latched_object.is_in_group("Static Grab"):
 		pin_joint_2d.node_b = pin_joint_2d.node_a
 		latched = false
 	if kick_ray.get_collider() is RigidBody2D:
@@ -129,3 +144,37 @@ func _input(event: InputEvent) -> void:
 		GadgetLock = true
 	if event.is_action("select") and GadgetLock:
 		GadgetLock = false
+
+func cust_move_and_slide():
+	if wall_ray_r.is_colliding():
+		if absf(linear_velocity.x) < slide_disconnect_speed and absf(linear_velocity.y) > 10.0:
+			var collision = move_and_collide(wall_ray_r.get_collision_point() - position)
+			if collision:
+				linear_velocity = linear_velocity.slide(collision.get_normal())
+			linear_velocity.x = 0.0
+			print("wall R")
+	if floor_ray.is_colliding():
+		if absf(linear_velocity.y) < slide_disconnect_speed and absf(linear_velocity.x) > 10.0:
+			#print(wall_ray_l.get_collision_point())
+			var collision = move_and_collide(floor_ray.get_collision_point() - position)
+			if collision:
+				#print(collision.get_normal())
+				linear_velocity = linear_velocity.slide(collision.get_normal())
+			linear_velocity.y = 0.0
+			print("floor")
+	if wall_ray_l.is_colliding():
+		if linear_velocity.x < slide_disconnect_speed and absf(linear_velocity.y) > 10.0:
+			#print(wall_ray_l.get_collision_point())
+			var collision = move_and_collide(wall_ray_l.get_collision_point() - position)
+			if collision:
+				#print(collision.get_normal())
+				linear_velocity = linear_velocity.slide(collision.get_normal())
+			linear_velocity.x = 0.0
+			print("wall L")
+	if ceiling_ray.is_colliding():
+		if absf(linear_velocity.y) < slide_disconnect_speed and absf(linear_velocity.x) > 10.0:
+			var collision = move_and_collide(ceiling_ray.get_collision_point() - position)
+			if collision:
+				linear_velocity = linear_velocity.slide(collision.get_normal())
+			linear_velocity.y = 0.0
+			print("ceiling")

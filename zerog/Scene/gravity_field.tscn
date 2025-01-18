@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://da8nishh770st"]
+
+[ext_resource type="Script" path="res://Scripts/gravity_field.gd" id="1_eakcq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e3oh1"]
+size = Vector2(591, 364)
+
+[node name="GravityField" type="Area2D"]
+visible = false
+collision_layer = 7
+collision_mask = 7
+gravity_space_override = 3
+gravity = 0.0
+script = ExtResource("1_eakcq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(287.5, 176)
+shape = SubResource("RectangleShape2D_e3oh1")
