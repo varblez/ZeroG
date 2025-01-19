@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var target : RigidBody2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var death_particle: CPUParticles2D = $DeathParticle
 
 @export var AI_On = true
 
@@ -19,3 +20,11 @@ func _physics_process(_delta: float) -> void:
 
 func _on_timer_timeout() -> void:
 	navigation_agent_2d.target_position = target.global_position
+
+func on_die():
+	AI_On = false
+	death_particle.emitting = true
+	
+
+func _on_death_particle_finished() -> void:
+	queue_free()

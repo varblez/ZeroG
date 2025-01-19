@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b0l0vkd28nbbc"]
+[gd_scene load_steps=13 format=3 uid="uid://b0l0vkd28nbbc"]
 
 [ext_resource type="Script" path="res://Scripts/player_2.gd" id="1_nr27m"]
 [ext_resource type="Texture2D" uid="uid://b7wf1268g5u6g" path="res://Assets/knight.png" id="2_xothc"]
@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/PlayerGravity.gd" id="7_iqmx1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pklmf"]
-friction = 0.5
+friction = 10.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cx1nb"]
 atlas = ExtResource("2_xothc")
@@ -31,9 +31,6 @@ radius = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1knrq"]
 radius = 3.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_m7yjd"]
-size = Vector2(52, 2)
 
 [node name="Player" type="RigidBody2D"]
 collision_layer = 2
@@ -80,12 +77,8 @@ shape = SubResource("CircleShape2D_1knrq")
 position = Vector2(7, 0)
 texture = ExtResource("4_6v5r5")
 
-[node name="TempWeapon" type="Area2D" parent="Grabber"]
-position = Vector2(8, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Grabber/TempWeapon"]
-position = Vector2(23, 0)
-shape = SubResource("RectangleShape2D_m7yjd")
+[node name="Muzzle" type="Marker2D" parent="Grabber"]
+position = Vector2(9, -2)
 
 [node name="PinJoint2D" type="PinJoint2D" parent="."]
 position = Vector2(8, 0)
@@ -126,4 +119,3 @@ player = NodePath("../..")
 
 [connection signal="timeout" from="TouchTimer" to="." method="_on_touch_timer_timeout"]
 [connection signal="body_entered" from="Grabber" to="." method="_on_grabber_body_entered"]
-[connection signal="area_entered" from="Grabber/TempWeapon" to="." method="_on_temp_weapon_area_entered"]
