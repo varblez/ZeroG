@@ -8,7 +8,7 @@ var pos  : Vector2
 func _ready() -> void:
 	pos = get_global_mouse_position()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if !stuck:
 		position = get_global_mouse_position()
 		if Input.is_action_just_pressed("select"):

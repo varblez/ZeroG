@@ -76,6 +76,14 @@ gadget={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Level"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Phys_Obj"
+2d_physics/layer_4="Enemy"
+2d_physics/layer_5="Static_Grab"
+
 [physics]
 
 2d/default_gravity=0.0

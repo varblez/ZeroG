@@ -12,8 +12,8 @@ collision_mask = 7
 script = ExtResource("1_n1ut6")
 
 [node name="FreezeArea" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FreezeArea"]
 shape = SubResource("CircleShape2D_e0v3w")

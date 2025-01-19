@@ -1,4 +1,5 @@
 extends RigidBody2D
+class_name Player
 #player components added by path
 @onready var kick_ray: RayCast2D = $KickRay
 @onready var pin_joint_2d: PinJoint2D = $PinJoint2D
@@ -33,7 +34,7 @@ var GadgetLock = false
 
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	#change gravity
 	if Input.is_action_just_pressed("gravity"):
 		SignalBus._flip_gravity.emit(!GravityOn)
@@ -93,7 +94,7 @@ func _physics_process(delta: float) -> void:
 
 	#move_and_slide()
 
-func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+func _integrate_forces(_state: PhysicsDirectBodyState2D) -> void:
 	cust_move_and_slide()
 
 func _on_grabber_body_entered(body: Node2D) -> void:

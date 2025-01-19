@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-@export var speed = 35
-@export var push_force = 10
-@export var target : Node2D
+
+@export var target : RigidBody2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 @export var AI_On = true
 
@@ -13,17 +13,8 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
-	if AI_On:
-		var dir  = to_local(navigation_agent_2d.get_next_path_position()).normalized()
-		velocity = dir * speed
-		
-		for i in get_slide_collision_count():
-			var collider = get_slide_collision(i)
-			if collider.get_collider() is RigidBody2D:
-				collider.get_collider().apply_central_impulse(-collider.get_normal()*push_force)
-		
-		move_and_slide()
+func _physics_process(_delta: float) -> void:
+	pass
 
 
 func _on_timer_timeout() -> void:
