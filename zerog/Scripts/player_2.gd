@@ -4,7 +4,7 @@ class_name Player
 @onready var kick_ray: RayCast2D = $KickRay
 @onready var pin_joint_2d: PinJoint2D = $PinJoint2D
 @onready var grabber: Area2D = $Grabber
-#@onready var floor_ray: RayCast2D = $FloorRay
+@onready var touch_timer: Timer = $TouchTimer
 @onready var rays: Node2D = $Rays
 @onready var wall_ray_r : RayCast2D = rays.get_child(0)
 @onready var floor_ray : RayCast2D = rays.get_child(1)
@@ -17,82 +17,17 @@ var FREEZE_AREA = preload("res://Scene/freeze_area.tscn")
 @export var tool_3: VectorTool
 @export var vent : Node2D
 #editable variables
-@export var SPEED = 1500.0
-@export var move_speed_max = 120.0
-@export var JUMP_VELOCITY = 18000.0
-@export var kick_force : = 100.0
-@export var max_kick_force := 100.0
-@export var push_force = 100.0
 @export var slide_disconnect_speed : float = 30.0
 #internally used globabl variables
 var latched_object : Node2D
 var grabbing := false
 var latched := false
-var point_vec : Vector2
-var GravityOn = false
 var GadgetLock = false
-
+var gravity_lock = false
 
 
 func _physics_process(_delta: float) -> void:
-	#change gravity
-	if Input.is_action_just_pressed("gravity"):
-		SignalBus._flip_gravity.emit(!GravityOn)
-		GravityOn = !GravityOn
-		rotation = 0.0
-
-	#make and limit point_vec
-	point_vec = get_global_mouse_position()-position
-	if point_vec.length() > max_kick_force:
-		point_vec = point_vec.normalized()*max_kick_force
-
-	#launch off
-	if Input.is_action_just_pressed("click") and kick_ray.is_colliding():
-		kick_off()
-
-	##apply push force to physics objects bumped into
-	#for i in get_slide_collision_count():
-		#var collider = get_slide_collision(i)
-		#if collider.get_collider() is RigidBody2D:
-			#collider.get_collider().apply_central_impulse(-collider.get_normal()*push_force)
-	#if GravityOn:
-		#tools.visible = false
-		## Add the gravity.
-		#if not is_on_floor():
-			#velocity += get_gravity() * delta
-#
-		## Handle jump.
-		#if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-			#velocity.y = JUMP_VELOCITY
-#
-		## Get the input direction and handle the movement/deceleration.
-		## As good practice, you should replace UI actions with custom gameplay actions.
-		#var direction := Input.get_axis("left", "right")
-		#if direction:
-			#velocity.x = direction * SPEED
-		#else:
-		#velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	if GravityOn:
-		gravity_controls()
-	else:
-		
-		tool_2.setvector(linear_velocity*0.5)
-		#lock_rotation = false
-		if Input.is_action_pressed("vent") and vent:
-			apply_central_force((vent.position-position)*10)
-	
-	tools.visible = true
-	tools.position = position
-	tool_3.setvector(point_vec)
-
-	kick_ray.look_at(get_global_mouse_position())
-
 	grabber_logic()
-	
-	
-
-	#move_and_slide()
 
 func _integrate_forces(_state: PhysicsDirectBodyState2D) -> void:
 	cust_move_and_slide()
@@ -102,15 +37,6 @@ func _on_grabber_body_entered(body: Node2D) -> void:
 		pin_joint_2d.node_b = body.get_path()
 		latched_object = body
 		latched = true
-
-func gravity_controls():
-	#lock_rotation = true
-	if Input.is_action_pressed("right") and linear_velocity.x < move_speed_max:
-		apply_central_impulse(Vector2.RIGHT*SPEED)
-	if Input.is_action_pressed("left") and linear_velocity.x > -move_speed_max:
-		apply_central_impulse(Vector2.LEFT*SPEED)
-	if Input.is_action_just_pressed("ui_accept") and floor_ray.is_colliding():
-		apply_central_impulse(Vector2.UP*JUMP_VELOCITY)
 
 func grabber_logic():
 	if !latched:
@@ -125,19 +51,6 @@ func grabber_logic():
 			pin_joint_2d.node_b = pin_joint_2d.node_a
 	if !grabbing:
 		latched = false
-
-##add force in direction of mouse, handle unlatching, and launch rigidbodies away
-func kick_off():
-	apply_central_impulse(point_vec*kick_force)
-	#rotation = point_vec.angle() + PI/2
-	if pin_joint_2d.node_b and latched_object == kick_ray.get_collider():
-		pin_joint_2d.node_b = pin_joint_2d.node_a
-		latched = false
-	elif pin_joint_2d.node_b and latched_object.is_in_group("Static Grab"):
-		pin_joint_2d.node_b = pin_joint_2d.node_a
-		latched = false
-	if kick_ray.get_collider() is RigidBody2D:
-		kick_ray.get_collider().apply_central_impulse(-point_vec*kick_force)
 		
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("gadget") and !GadgetLock:
@@ -153,7 +66,7 @@ func cust_move_and_slide():
 			if collision:
 				linear_velocity = linear_velocity.slide(collision.get_normal())
 			linear_velocity.x = 0.0
-			print("wall R")
+			#print("wall R")
 	if floor_ray.is_colliding():
 		if absf(linear_velocity.y) < slide_disconnect_speed and absf(linear_velocity.x) > 10.0:
 			#print(wall_ray_l.get_collision_point())
@@ -162,7 +75,7 @@ func cust_move_and_slide():
 				#print(collision.get_normal())
 				linear_velocity = linear_velocity.slide(collision.get_normal())
 			linear_velocity.y = 0.0
-			print("floor")
+			#print("floor")
 	if wall_ray_l.is_colliding():
 		if linear_velocity.x < slide_disconnect_speed and absf(linear_velocity.y) > 10.0:
 			#print(wall_ray_l.get_collision_point())
@@ -171,11 +84,15 @@ func cust_move_and_slide():
 				#print(collision.get_normal())
 				linear_velocity = linear_velocity.slide(collision.get_normal())
 			linear_velocity.x = 0.0
-			print("wall L")
+			#print("wall L")
 	if ceiling_ray.is_colliding():
 		if absf(linear_velocity.y) < slide_disconnect_speed and absf(linear_velocity.x) > 10.0:
 			var collision = move_and_collide(ceiling_ray.get_collision_point() - position)
 			if collision:
 				linear_velocity = linear_velocity.slide(collision.get_normal())
 			linear_velocity.y = 0.0
-			print("ceiling")
+			#print("ceiling")
+
+func _on_touch_timer_timeout() -> void:
+	gravity_lock = false
+	print("open")

@@ -1,12 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0l0vkd28nbbc"]
+[gd_scene load_steps=13 format=3 uid="uid://b0l0vkd28nbbc"]
 
 [ext_resource type="Script" path="res://Scripts/player_2.gd" id="1_nr27m"]
 [ext_resource type="Texture2D" uid="uid://b7wf1268g5u6g" path="res://Assets/knight.png" id="2_xothc"]
 [ext_resource type="PackedScene" uid="uid://dxir31mdsb3kt" path="res://Scene/velocity_label.tscn" id="3_kh5ib"]
 [ext_resource type="Texture2D" uid="uid://88vegplvy116" path="res://Assets/knight hand.png" id="4_6v5r5"]
+[ext_resource type="Script" path="res://Scripts/state_machine.gd" id="5_syr2t"]
+[ext_resource type="Script" path="res://Scripts/PlayerZeroG.gd" id="6_wvssg"]
+[ext_resource type="Script" path="res://Scripts/PlayerGravity.gd" id="7_iqmx1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pklmf"]
-friction = 0.3
+friction = 0.5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cx1nb"]
 atlas = ExtResource("2_xothc")
@@ -99,4 +102,17 @@ target_position = Vector2(-3, 0)
 position = Vector2(0, -5)
 target_position = Vector2(0, -3)
 
+[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_syr2t")
+initial_state = NodePath("PlayerZeroG")
+
+[node name="PlayerZeroG" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("6_wvssg")
+player = NodePath("../..")
+
+[node name="PlayerGravity" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("7_iqmx1")
+player = NodePath("../..")
+
+[connection signal="timeout" from="TouchTimer" to="." method="_on_touch_timer_timeout"]
 [connection signal="body_entered" from="Grabber" to="." method="_on_grabber_body_entered"]
