@@ -10,6 +10,7 @@ class_name Player
 @onready var floor_ray : RayCast2D = rays.get_child(1)
 @onready var wall_ray_l : RayCast2D = rays.get_child(2)
 @onready var ceiling_ray : RayCast2D = rays.get_child(3)
+@onready var temp_weapon: Area2D = $Grabber/TempWeapon
 var FREEZE_AREA = preload("res://Scene/freeze_area.tscn")
 #external nodes added in the inspector
 @export var tools: Node2D
@@ -96,3 +97,13 @@ func cust_move_and_slide():
 func _on_touch_timer_timeout() -> void:
 	gravity_lock = false
 	print("open")
+
+
+func _on_temp_weapon_area_entered(area: Area2D) -> void:
+	if area is HurtboxComponent:
+		var h_box : HurtboxComponent = area
+		var attack = Attack.new()
+		attack.damage = 20.0
+		attack.knockback = 10.0
+		attack.hit_position = position
+		h_box.damage(attack)
