@@ -14,11 +14,13 @@ class_name Player
 var FREEZE_AREA = preload("res://Scene/freeze_area.tscn")
 var BULLET = preload("res://Scene/bullet.tscn")
 @onready var state_machine: Node2D = $StateMachine
+@onready var pain_partical: CPUParticles2D = $PainPartical
 #external nodes added in the inspector
 @export var tools: Node2D
 @export var tool_2: VectorTool
 @export var tool_3: VectorTool
 @export var vent : Node2D
+@export var health : HealthComponent
 #editable variables
 @export var slide_disconnect_speed : float = 30.0
 #internally used globabl variables
@@ -27,7 +29,7 @@ var grabbing := false
 var latched := false
 var GadgetLock = false
 var gravity_lock = false
-
+var buffered_knockback : Vector2
 
 func _physics_process(_delta: float) -> void:
 	grabber_logic()
@@ -107,3 +109,21 @@ func shoot():
 	var b = BULLET.instantiate()
 	owner.add_child(b)
 	b.transform = muzzle.get_global_transform()
+
+func on_die():
+	get_tree().reload_current_scene()
+
+func _on_hurtbox_component_hit(attack: Attack) -> void:
+	var knockback_vec = (global_position - attack.hit_position).normalized()
+	print(attack.hit_position)
+	print(knockback_vec)
+	#apply_central_impulse(knockback_vec*200)
+	set_deferred("sleeping", true)
+	set_deferred("freeze", true)
+	buffered_knockback = knockback_vec*1000
+	pain_partical.emitting = true
+	health.damage(attack)
+
+func _on_pain_partical_finished() -> void:
+	freeze = false
+	apply_central_impulse(buffered_knockback)

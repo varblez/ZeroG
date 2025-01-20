@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://b54t04qd4v7y8"]
+[gd_scene load_steps=8 format=4 uid="uid://b54t04qd4v7y8"]
 
 [ext_resource type="PackedScene" uid="uid://da8nishh770st" path="res://Scene/gravity_field.tscn" id="1_vbxvd"]
 [ext_resource type="TileSet" uid="uid://c2xhfm8pm58e6" path="res://Assets/game.tres" id="2_fcyfk"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dg2yrle8wb5ro" path="res://Scene/tool.tscn" id="4_23qkw"]
 [ext_resource type="PackedScene" uid="uid://m8k7uvbaknsk" path="res://Scene/vent.tscn" id="5_3l5vg"]
 [ext_resource type="PackedScene" uid="uid://blevl387tqd0a" path="res://Scene/handle.tscn" id="6_fd4fu"]
+[ext_resource type="PackedScene" uid="uid://cgs1gwi4yf4nx" path="res://Scene/spikes.tscn" id="7_ruhko"]
 
 [node name="TestLevel" type="Node2D"]
 
@@ -50,3 +51,19 @@ rotation = 3.14159
 
 [node name="Handle4" parent="." instance=ExtResource("6_fd4fu")]
 position = Vector2(299, 77)
+
+[node name="Spikes" parent="." instance=ExtResource("7_ruhko")]
+position = Vector2(74, 225)
+rotation = -1.57079
+
+[node name="Spikes2" parent="." instance=ExtResource("7_ruhko")]
+position = Vector2(24, 151)
+rotation = -4.71238
+
+[node name="Spikes3" parent="." instance=ExtResource("7_ruhko")]
+position = Vector2(87, 23)
+rotation = -3.14159
+
+[node name="Spikes4" parent="." instance=ExtResource("7_ruhko")]
+position = Vector2(164, 74)
+rotation = -6.28318

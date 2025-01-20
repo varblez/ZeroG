@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0l0vkd28nbbc"]
+[gd_scene load_steps=16 format=3 uid="uid://b0l0vkd28nbbc"]
 
 [ext_resource type="Script" path="res://Scripts/player_2.gd" id="1_nr27m"]
 [ext_resource type="Texture2D" uid="uid://b7wf1268g5u6g" path="res://Assets/knight.png" id="2_xothc"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://Scripts/state_machine.gd" id="5_syr2t"]
 [ext_resource type="Script" path="res://Scripts/PlayerZeroG.gd" id="6_wvssg"]
 [ext_resource type="Script" path="res://Scripts/PlayerGravity.gd" id="7_iqmx1"]
+[ext_resource type="Script" path="res://Scripts/health_component.gd" id="8_xdf5k"]
+[ext_resource type="Script" path="res://Scripts/hurtbox_component.gd" id="9_jtpco"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pklmf"]
 friction = 10.0
@@ -32,7 +34,10 @@ radius = 6.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_1knrq"]
 radius = 3.0
 
-[node name="Player" type="RigidBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_q5u0b"]
+radius = 7.0
+
+[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("health")]
 collision_layer = 2
 collision_mask = 15
 mass = 65.0
@@ -41,6 +46,7 @@ lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 4
 script = ExtResource("1_nr27m")
+health = NodePath("HealthComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -5)
@@ -117,5 +123,29 @@ player = NodePath("../..")
 script = ExtResource("7_iqmx1")
 player = NodePath("../..")
 
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("8_xdf5k")
+
+[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("9_jtpco")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CircleShape2D_q5u0b")
+
+[node name="PainPartical" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 43
+lifetime = 0.25
+one_shot = true
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 78.21
+initial_velocity_max = 351.96
+
 [connection signal="timeout" from="TouchTimer" to="." method="_on_touch_timer_timeout"]
 [connection signal="body_entered" from="Grabber" to="." method="_on_grabber_body_entered"]
+[connection signal="hit" from="HurtboxComponent" to="." method="_on_hurtbox_component_hit"]
+[connection signal="finished" from="PainPartical" to="." method="_on_pain_partical_finished"]

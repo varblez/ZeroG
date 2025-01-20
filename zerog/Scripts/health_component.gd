@@ -2,7 +2,7 @@ extends Node2D
 class_name HealthComponent
 
 var health : float
-var max_health : float = 100.0
+@export var max_health : float = 100.0
 
 func _ready() -> void:
 	health = max_health

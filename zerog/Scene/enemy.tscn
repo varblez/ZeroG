@@ -60,12 +60,13 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dmugp"]
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health")]
 collision_layer = 15
 collision_mask = 15
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_ecpso")
+health = NodePath("HealthComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, -1)
@@ -112,5 +113,10 @@ gravity = Vector2(0, 0)
 initial_velocity_min = 333.33
 initial_velocity_max = 727.27
 
+[node name="StunTimer" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="hit" from="HurtboxComponent" to="." method="_on_hurtbox_component_hit"]
 [connection signal="finished" from="DeathParticle" to="." method="_on_death_particle_finished"]
+[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]

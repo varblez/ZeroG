@@ -5,6 +5,8 @@ extends CharacterBody2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var death_particle: CPUParticles2D = $DeathParticle
+@export var health : HealthComponent
+@onready var stun_timer: Timer = $StunTimer
 
 @export var AI_On = true
 
@@ -28,3 +30,15 @@ func on_die():
 
 func _on_death_particle_finished() -> void:
 	queue_free()
+
+
+func _on_hurtbox_component_hit(attack: Attack) -> void:
+	if health:
+		health.damage(attack)
+	AI_On = false
+	stun_timer.start()
+	velocity = (global_position - attack.hit_position).normalized()*attack.knockback
+
+
+func _on_stun_timer_timeout() -> void:
+	AI_On = true
