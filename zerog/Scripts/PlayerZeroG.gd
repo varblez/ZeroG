@@ -17,6 +17,7 @@ func exit():
 	player.floor_ray.set_collision_mask_value(3,true)
 
 func physics_update(delta: float):
+	player.look_at(player.global_position + player.linear_velocity)
 	point_vec = player.get_global_mouse_position() - player.position
 	if point_vec.length() > max_kick_force:
 		point_vec = point_vec.normalized()*max_kick_force
@@ -24,7 +25,7 @@ func physics_update(delta: float):
 	if Input.is_action_just_pressed("click") and player.kick_ray.is_colliding():
 		kick_off()
 		
-	player.tool_2.setvector(player.linear_velocity*0.5)
+	player.tool_2.setvector(player.linear_velocity)
 	player.tools.visible = true
 	player.tools.position = player.position
 	player.tool_3.setvector(point_vec)
@@ -41,6 +42,7 @@ func physics_update(delta: float):
 
 
 func kick_off():
+	print(point_vec*kick_force)
 	player.apply_central_impulse(point_vec*kick_force)
 	#rotation = point_vec.angle() + PI/2
 	if player.pin_joint_2d.node_b and player.latched_object == player.kick_ray.get_collider():

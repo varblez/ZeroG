@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://Scripts/mouse_lbl.gd" id="7_ni0se"]
 [ext_resource type="PackedScene" uid="uid://b8mmgho8skv4b" path="res://Scene/box_big.tscn" id="9_066y3"]
 [ext_resource type="PackedScene" uid="uid://m8k7uvbaknsk" path="res://Scene/vent.tscn" id="10_ysqt1"]
-[ext_resource type="PackedScene" uid="uid://cx7as1rgkgn2y" path="res://Scene/enemy.tscn" id="11_tkr7c"]
 [ext_resource type="PackedScene" uid="uid://cgs1gwi4yf4nx" path="res://Scene/spikes.tscn" id="12_1ja38"]
 [ext_resource type="PackedScene" uid="uid://dd1ju8y8qsl6r" path="res://Scene/paper_character.tscn" id="13_uyica"]
 
@@ -90,6 +89,9 @@ texture = ExtResource("1_xs0qe")
 navigation_layer_0/layers = 3
 sources/0 = SubResource("TileSetAtlasSource_me4rg")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8dln0"]
+size = Vector2(575, 20)
+
 [node name="Game" type="Node2D"]
 
 [node name="GravityField" parent="." instance=ExtResource("1_l5ibq")]
@@ -144,10 +146,6 @@ color = Color(0.162617, 0.43364, 1, 1)
 position = Vector2(338, 117)
 rotation = -0.592495
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("11_tkr7c")]
-position = Vector2(490, 171)
-target = NodePath("../Player")
-
 [node name="MouseLbl" type="Label" parent="."]
 offset_left = 69.0
 offset_top = 93.0
@@ -159,8 +157,14 @@ text = "0.0"
 script = ExtResource("7_ni0se")
 
 [node name="Spikes" parent="." instance=ExtResource("12_1ja38")]
-position = Vector2(252, 265)
+position = Vector2(554, 264)
 
 [node name="PaperCharacter" parent="." instance=ExtResource("13_uyica")]
 position = Vector2(272, 224)
 scale = Vector2(0.055, 0.055)
+
+[node name="Second Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Second Floor"]
+position = Vector2(289.5, 283)
+shape = SubResource("RectangleShape2D_8dln0")

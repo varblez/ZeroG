@@ -21,7 +21,8 @@
 [ext_resource type="Script" path="res://addons/Souperior 2D Skeleton Modifications/Animatinators/Modifications/soup_look_at.gd" id="18_xaruf"]
 
 [node name="PaperCharacter" type="Node2D"]
-position = Vector2(0, -413)
+position = Vector2(0, -35)
+scale = Vector2(0.5, 0.4)
 script = ExtResource("1_yyi5h")
 
 [node name="Polygons" type="Node2D" parent="."]
@@ -201,6 +202,7 @@ polygons = [PackedInt32Array(11, 18, 12), PackedInt32Array(18, 13, 12), PackedIn
 internal_vertex_count = 2
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
+visible = false
 
 [node name="Hips" type="Bone2D" parent="Skeleton2D"]
 position = Vector2(-21, 166)
@@ -213,7 +215,8 @@ rest = Transform2D(1, 0, 0, 1, 43, -9.0001)
 
 [node name="Head" type="Bone2D" parent="Skeleton2D/Hips/Torso"]
 position = Vector2(189, 3.99958)
-rotation = -0.124943
+rotation = -0.0639339
+scale = Vector2(0.563341, 0.5719)
 rest = Transform2D(0.999978, -0.00662758, 0.00662758, 0.999978, 189, 3.99958)
 auto_calculate_length_and_angle = false
 length = 160.613
@@ -222,14 +225,13 @@ metadata/_local_pose_override_enabled_ = true
 
 [node name="ArmR" type="Bone2D" parent="Skeleton2D/Hips/Torso"]
 position = Vector2(143, -87.0003)
-rotation = -2.88467
-scale = Vector2(1, 1)
+rotation = -2.68497
 rest = Transform2D(-0.984903, -0.173106, 0.173106, -0.984903, 143, -87.0003)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="ForeArmR" type="Bone2D" parent="Skeleton2D/Hips/Torso/ArmR"]
 position = Vector2(102.591, 0.244366)
-rotation = -0.393038
+rotation = -0.854703
 rest = Transform2D(0.972293, -0.233765, 0.233765, 0.972293, 102.591, 0.244366)
 auto_calculate_length_and_angle = false
 length = 155.257
@@ -242,13 +244,13 @@ rotation = -1.50883
 
 [node name="ArmL" type="Bone2D" parent="Skeleton2D/Hips/Torso"]
 position = Vector2(143, 75.9997)
-rotation = -3.04436
+rotation = -2.83688
 rest = Transform2D(-0.999963, -0.00862603, 0.00862603, -0.999963, 143, 75.9997)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="ForeArmL" type="Bone2D" parent="Skeleton2D/Hips/Torso/ArmL"]
 position = Vector2(95.9036, -4.41541)
-rotation = -0.39192
+rotation = -0.87939
 rest = Transform2D(0.976492, -0.215554, 0.215554, 0.976492, 95.9036, -4.41541)
 auto_calculate_length_and_angle = false
 length = 139.188
@@ -261,19 +263,19 @@ rotation = -1.36217
 
 [node name="ThighR" type="Bone2D" parent="Skeleton2D/Hips"]
 position = Vector2(-10.0001, -56)
-rotation = 3.03193
+rotation = 2.99084
 rest = Transform2D(-0.971404, -0.237431, 0.237431, -0.971404, -10.0001, -56)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="ShinR" type="Bone2D" parent="Skeleton2D/Hips/ThighR"]
 position = Vector2(93.3839, -1.20692)
-rotation = 0.239219
+rotation = 0.386849
 rest = Transform2D(0.965926, -0.258819, 0.258819, 0.965926, 93.3839, -1.20692)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="FootR" type="Bone2D" parent="Skeleton2D/Hips/ThighR/ShinR"]
 position = Vector2(115.773, 11.5585)
-rotation = -1.75465
+rotation = -1.87093
 rest = Transform2D(2.22127e-06, -1, 1, 2.22127e-06, 115.773, 11.5585)
 auto_calculate_length_and_angle = false
 length = 92.814
@@ -281,22 +283,19 @@ bone_angle = 0.0
 
 [node name="ThighL" type="Bone2D" parent="Skeleton2D/Hips"]
 position = Vector2(1.0001, 44)
-rotation = 2.98893
-scale = Vector2(1, 1)
+rotation = 2.92481
 rest = Transform2D(-0.971404, -0.237431, 0.237431, -0.971404, 1.0001, 44)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="ShinL" type="Bone2D" parent="Skeleton2D/Hips/ThighL"]
 position = Vector2(93.3839, -1.20692)
-rotation = 0.2119
-scale = Vector2(1, 1)
+rotation = 0.402007
 rest = Transform2D(0.965926, -0.258819, 0.258819, 0.965926, 93.3839, -1.20692)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="FootL" type="Bone2D" parent="Skeleton2D/Hips/ThighL/ShinL"]
 position = Vector2(115.773, 11.5585)
-rotation = -1.66264
-scale = Vector2(1, 1)
+rotation = -1.78974
 rest = Transform2D(2.22127e-06, -1, 1, 2.22127e-06, 115.773, 11.5585)
 auto_calculate_length_and_angle = false
 length = 92.814

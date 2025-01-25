@@ -1,9 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://b0l0vkd28nbbc"]
+[gd_scene load_steps=13 format=3 uid="uid://b0l0vkd28nbbc"]
 
 [ext_resource type="Script" path="res://Scripts/player_2.gd" id="1_nr27m"]
-[ext_resource type="Texture2D" uid="uid://b7wf1268g5u6g" path="res://Assets/knight.png" id="2_xothc"]
+[ext_resource type="PackedScene" uid="uid://dd1ju8y8qsl6r" path="res://Scene/paper_character.tscn" id="3_1416j"]
 [ext_resource type="PackedScene" uid="uid://dxir31mdsb3kt" path="res://Scene/velocity_label.tscn" id="3_kh5ib"]
-[ext_resource type="Texture2D" uid="uid://88vegplvy116" path="res://Assets/knight hand.png" id="4_6v5r5"]
 [ext_resource type="Script" path="res://Scripts/state_machine.gd" id="5_syr2t"]
 [ext_resource type="Script" path="res://Scripts/PlayerZeroG.gd" id="6_wvssg"]
 [ext_resource type="Script" path="res://Scripts/PlayerGravity.gd" id="7_iqmx1"]
@@ -11,25 +10,12 @@
 [ext_resource type="Script" path="res://Scripts/hurtbox_component.gd" id="9_jtpco"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pklmf"]
-friction = 10.0
+friction = 0.5
+bounce = 0.1
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cx1nb"]
-atlas = ExtResource("2_xothc")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_hbgx2"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cx1nb")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_nvwrc"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xyc0x"]
 radius = 6.0
+height = 24.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1knrq"]
 radius = 3.0
@@ -48,12 +34,14 @@ max_contacts_reported = 4
 script = ExtResource("1_nr27m")
 health = NodePath("HealthComponent")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -5)
-sprite_frames = SubResource("SpriteFrames_hbgx2")
+[node name="PaperCharacter" parent="." instance=ExtResource("3_1416j")]
+position = Vector2(3, -1.42109e-14)
+rotation = 1.57079
+scale = Vector2(0.05, 0.04)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_nvwrc")
+rotation = 1.57079
+shape = SubResource("CapsuleShape2D_xyc0x")
 
 [node name="VelocityLabel" parent="." instance=ExtResource("3_kh5ib")]
 visible = false
@@ -67,7 +55,7 @@ wait_time = 0.1
 one_shot = true
 
 [node name="KickRay" type="RayCast2D" parent="."]
-target_position = Vector2(-15, 0)
+target_position = Vector2(-17, 0)
 collision_mask = 13
 
 [node name="Grabber" type="Area2D" parent="."]
@@ -78,10 +66,6 @@ collision_mask = 20
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Grabber"]
 position = Vector2(6, 0)
 shape = SubResource("CircleShape2D_1knrq")
-
-[node name="Sprite2D" type="Sprite2D" parent="Grabber"]
-position = Vector2(7, 0)
-texture = ExtResource("4_6v5r5")
 
 [node name="Muzzle" type="Marker2D" parent="Grabber"]
 position = Vector2(9, -2)
@@ -96,7 +80,7 @@ softness = 0.01
 [node name="Rays" type="Node2D" parent="."]
 
 [node name="WallRayR" type="RayCast2D" parent="Rays"]
-position = Vector2(5, 0)
+position = Vector2(11, 0)
 target_position = Vector2(3, 0)
 
 [node name="FloorRay" type="RayCast2D" parent="Rays"]
@@ -104,11 +88,11 @@ position = Vector2(0, 5)
 target_position = Vector2(0, 2.205)
 
 [node name="WallRayL" type="RayCast2D" parent="Rays"]
-position = Vector2(-5, 0)
+position = Vector2(-11, 0)
 target_position = Vector2(-3, 0)
 
 [node name="CeilingRay" type="RayCast2D" parent="Rays"]
-position = Vector2(0, -5)
+position = Vector2(-1, -5)
 target_position = Vector2(0, -3)
 
 [node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
@@ -127,7 +111,7 @@ player = NodePath("../..")
 script = ExtResource("8_xdf5k")
 
 [node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
-collision_layer = 3
+collision_layer = 2
 collision_mask = 3
 script = ExtResource("9_jtpco")
 health_component = NodePath("../HealthComponent")
