@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://b773m64noiy4h"]
+[gd_scene load_steps=18 format=4 uid="uid://b773m64noiy4h"]
 
 [ext_resource type="PackedScene" uid="uid://da8nishh770st" path="res://Scene/gravity_field.tscn" id="1_l5ibq"]
 [ext_resource type="Texture2D" uid="uid://bbg4o8uj4jgo0" path="res://Assets/sci-fi-tileset.png" id="1_xs0qe"]
@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://b8mmgho8skv4b" path="res://Scene/box_big.tscn" id="9_066y3"]
 [ext_resource type="PackedScene" uid="uid://m8k7uvbaknsk" path="res://Scene/vent.tscn" id="10_ysqt1"]
 [ext_resource type="PackedScene" uid="uid://cgs1gwi4yf4nx" path="res://Scene/spikes.tscn" id="12_1ja38"]
-[ext_resource type="PackedScene" uid="uid://dd1ju8y8qsl6r" path="res://Scene/paper_character.tscn" id="13_uyica"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_is8ue"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -129,7 +128,7 @@ rotation = 0.560653
 
 [node name="Player" parent="." node_paths=PackedStringArray("tools", "tool_2", "tool_3", "vent") instance=ExtResource("6_uotso")]
 z_index = 1
-position = Vector2(295, 227)
+position = Vector2(42, 258)
 tools = NodePath("../Tools")
 tool_2 = NodePath("../Tools/Tool2")
 tool_3 = NodePath("../Tools/Tool3")
@@ -158,10 +157,6 @@ script = ExtResource("7_ni0se")
 
 [node name="Spikes" parent="." instance=ExtResource("12_1ja38")]
 position = Vector2(554, 264)
-
-[node name="PaperCharacter" parent="." instance=ExtResource("13_uyica")]
-position = Vector2(272, 224)
-scale = Vector2(0.055, 0.055)
 
 [node name="Second Floor" type="StaticBody2D" parent="."]
 

@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e37jf"]
 size = Vector2(16, 16)
 
-[node name="Box" type="RigidBody2D"]
+[node name="Box" type="RigidBody2D" groups=["Grab"]]
 collision_layer = 4
 collision_mask = 15
 mass = 50.0

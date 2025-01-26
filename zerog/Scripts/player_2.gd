@@ -15,6 +15,7 @@ var FREEZE_AREA = preload("res://Scene/freeze_area.tscn")
 var BULLET = preload("res://Scene/bullet.tscn")
 @onready var state_machine: Node2D = $StateMachine
 @onready var pain_partical: CPUParticles2D = $PainPartical
+@onready var paper_character: Node2D = $PaperCharacter
 #external nodes added in the inspector
 @export var tools: Node2D
 @export var tool_2: VectorTool
@@ -37,9 +38,15 @@ func _physics_process(delta: float) -> void:
 	grabber_logic()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	pass
-	# if colliding
-	#if(state.get_contact_count() >= 1):
+	if grabbing:
+		if(state.get_contact_count() >= 1):
+			print("collision touch")
+			if state.get_contact_collider_object(0).is_in_group("Grab"):
+				paper_character.set_animation("Grab")
+				rotation = state.get_contact_local_normal(0).angle()
+				pin_joint_2d.node_b = state.get_contact_collider_object(0).get_path()
+				latched_object = state.get_contact_collider_object(0)
+				latched = true
 		##if its a solid object
 		#if state.get_contact_collider_object(0) is not RigidBody2D:
 			#var normal = state.get_contact_local_normal(0)
@@ -83,6 +90,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action("select") and GadgetLock:
 		GadgetLock = false
 	elif event.is_action("select"):
+		paper_character.set_animation("Floating")
 		shoot()
 
 func cust_move_and_slide():
@@ -138,8 +146,6 @@ func on_die():
 
 func _on_hurtbox_component_hit(attack: Attack) -> void:
 	var knockback_vec = (global_position - attack.hit_position).normalized()
-	print(attack.hit_position)
-	print(knockback_vec)
 	#apply_central_impulse(knockback_vec*200)
 	set_deferred("sleeping", true)
 	set_deferred("freeze", true)
@@ -150,3 +156,6 @@ func _on_hurtbox_component_hit(attack: Attack) -> void:
 func _on_pain_partical_finished() -> void:
 	freeze = false
 	apply_central_impulse(buffered_knockback)
+
+func _on_touch_detection_body_entered(body: Node2D) -> void:
+	pass

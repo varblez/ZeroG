@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0l0vkd28nbbc"]
+[gd_scene load_steps=14 format=3 uid="uid://b0l0vkd28nbbc"]
 
 [ext_resource type="Script" path="res://Scripts/player_2.gd" id="1_nr27m"]
 [ext_resource type="PackedScene" uid="uid://dd1ju8y8qsl6r" path="res://Scene/paper_character.tscn" id="3_1416j"]
@@ -14,8 +14,8 @@ friction = 0.5
 bounce = 0.1
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xyc0x"]
-radius = 6.0
-height = 24.0
+radius = 9.00001
+height = 46.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1knrq"]
 radius = 3.0
@@ -23,9 +23,13 @@ radius = 3.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_q5u0b"]
 radius = 7.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rjidc"]
+radius = 12.0
+height = 52.0
+
 [node name="Player" type="RigidBody2D" node_paths=PackedStringArray("health")]
 collision_layer = 2
-collision_mask = 15
+collision_mask = 31
 mass = 65.0
 physics_material_override = SubResource("PhysicsMaterial_pklmf")
 lock_rotation = true
@@ -35,9 +39,9 @@ script = ExtResource("1_nr27m")
 health = NodePath("HealthComponent")
 
 [node name="PaperCharacter" parent="." instance=ExtResource("3_1416j")]
-position = Vector2(3, -1.42109e-14)
+position = Vector2(5, -4.40536e-13)
 rotation = 1.57079
-scale = Vector2(0.05, 0.04)
+scale = Vector2(0.1, 0.08)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.57079
@@ -55,7 +59,7 @@ wait_time = 0.1
 one_shot = true
 
 [node name="KickRay" type="RayCast2D" parent="."]
-target_position = Vector2(-17, 0)
+target_position = Vector2(-34, 0)
 collision_mask = 13
 
 [node name="Grabber" type="Area2D" parent="."]
@@ -80,19 +84,19 @@ softness = 0.01
 [node name="Rays" type="Node2D" parent="."]
 
 [node name="WallRayR" type="RayCast2D" parent="Rays"]
-position = Vector2(11, 0)
+position = Vector2(22, 0)
 target_position = Vector2(3, 0)
 
 [node name="FloorRay" type="RayCast2D" parent="Rays"]
-position = Vector2(0, 5)
+position = Vector2(0, 8)
 target_position = Vector2(0, 2.205)
 
 [node name="WallRayL" type="RayCast2D" parent="Rays"]
-position = Vector2(-11, 0)
+position = Vector2(-22, 0)
 target_position = Vector2(-3, 0)
 
 [node name="CeilingRay" type="RayCast2D" parent="Rays"]
-position = Vector2(-1, -5)
+position = Vector2(0, -8)
 target_position = Vector2(0, -3)
 
 [node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
@@ -129,7 +133,15 @@ gravity = Vector2(0, 0)
 initial_velocity_min = 78.21
 initial_velocity_max = 351.96
 
+[node name="TouchDetection" type="Area2D" parent="."]
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TouchDetection"]
+rotation = 1.57079
+shape = SubResource("CapsuleShape2D_rjidc")
+
 [connection signal="timeout" from="TouchTimer" to="." method="_on_touch_timer_timeout"]
 [connection signal="body_entered" from="Grabber" to="." method="_on_grabber_body_entered"]
 [connection signal="hit" from="HurtboxComponent" to="." method="_on_hurtbox_component_hit"]
 [connection signal="finished" from="PainPartical" to="." method="_on_pain_partical_finished"]
+[connection signal="body_entered" from="TouchDetection" to="." method="_on_touch_detection_body_entered"]

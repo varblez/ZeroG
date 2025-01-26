@@ -5,16 +5,17 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ffn5h"]
 size = Vector2(10, 6)
 
-[node name="Handle" type="Node2D"]
+[node name="Handle" type="Node2D" groups=["Grab"]]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_iohee")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 16
-collision_mask = 0
+[node name="Grip Surface" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" groups=["Static Grab"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grip Surface" groups=["Grab"]]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_ffn5h")
+
+[node name="Player Position" type="Node2D" parent="Grip Surface"]
+position = Vector2(0, -9)
