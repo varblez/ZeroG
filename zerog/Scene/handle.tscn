@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://blevl387tqd0a"]
+[gd_scene load_steps=4 format=3 uid="uid://blevl387tqd0a"]
 
 [ext_resource type="Texture2D" uid="uid://dgiss5rpa550l" path="res://Assets/Pipe_Handle.png" id="1_iohee"]
+[ext_resource type="Script" path="res://Scene/grip_surface.gd" id="2_35o41"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ffn5h"]
 size = Vector2(10, 6)
@@ -12,6 +13,10 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_iohee")
 
 [node name="Grip Surface" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("2_35o41")
+alignment_vector = Vector2(0, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Grip Surface" groups=["Grab"]]
 position = Vector2(0, 1)
@@ -19,3 +24,5 @@ shape = SubResource("RectangleShape2D_ffn5h")
 
 [node name="Player Position" type="Node2D" parent="Grip Surface"]
 position = Vector2(0, -9)
+
+[connection signal="body_entered" from="Grip Surface" to="Grip Surface" method="_on_body_entered"]

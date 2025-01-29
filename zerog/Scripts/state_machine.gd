@@ -26,6 +26,10 @@ func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state.physics_update(delta)
 
+func remote_intigrate_forces(state: PhysicsDirectBodyState2D):
+	if current_state:
+		current_state.forces_update(state)
+
 func on_child_transitioned(state, new_state_name):
 	if state != current_state:
 		return

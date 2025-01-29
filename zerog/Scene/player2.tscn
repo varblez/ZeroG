@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b0l0vkd28nbbc"]
+[gd_scene load_steps=15 format=3 uid="uid://b0l0vkd28nbbc"]
 
 [ext_resource type="Script" path="res://Scripts/player_2.gd" id="1_nr27m"]
 [ext_resource type="PackedScene" uid="uid://dd1ju8y8qsl6r" path="res://Scene/paper_character.tscn" id="3_1416j"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/PlayerZeroG.gd" id="6_wvssg"]
 [ext_resource type="Script" path="res://Scripts/PlayerGravity.gd" id="7_iqmx1"]
 [ext_resource type="Script" path="res://Scripts/health_component.gd" id="8_xdf5k"]
+[ext_resource type="PackedScene" uid="uid://dg2yrle8wb5ro" path="res://Scene/tool.tscn" id="9_080q6"]
 [ext_resource type="Script" path="res://Scripts/hurtbox_component.gd" id="9_jtpco"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pklmf"]
@@ -27,7 +28,7 @@ radius = 7.0
 radius = 12.0
 height = 52.0
 
-[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("health")]
+[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("tools", "tool_2", "tool_3", "health")]
 collision_layer = 2
 collision_mask = 31
 mass = 65.0
@@ -36,6 +37,9 @@ lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 4
 script = ExtResource("1_nr27m")
+tools = NodePath("Tools")
+tool_2 = NodePath("Tools/Tool2")
+tool_3 = NodePath("Tools/Tool3")
 health = NodePath("HealthComponent")
 
 [node name="PaperCharacter" parent="." instance=ExtResource("3_1416j")]
@@ -139,6 +143,13 @@ collision_mask = 5
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TouchDetection"]
 rotation = 1.57079
 shape = SubResource("CapsuleShape2D_rjidc")
+
+[node name="Tools" type="Node2D" parent="."]
+
+[node name="Tool2" parent="Tools" instance=ExtResource("9_080q6")]
+
+[node name="Tool3" parent="Tools" instance=ExtResource("9_080q6")]
+color = Color(0.162617, 0.43364, 1, 1)
 
 [connection signal="timeout" from="TouchTimer" to="." method="_on_touch_timer_timeout"]
 [connection signal="body_entered" from="Grabber" to="." method="_on_grabber_body_entered"]

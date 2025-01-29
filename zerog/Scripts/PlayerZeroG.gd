@@ -7,27 +7,28 @@ class_name  PlayerZeroG
 @export var max_kick_force := 100.0
 @export var push_force = 100.0
 var point_vec : Vector2
-var soready := false
 
 func enter():
 	SignalBus._flip_gravity.emit(false)
 	player.tools.show()
+	player.tools.visible = true
+	
 
 func exit():
 	player.floor_ray.set_collision_mask_value(3,true)
 
 func physics_update(delta: float):
-	#player.look_at(player.global_position + player.linear_velocity)
+	if !player.latched_object:
+		player.look_at(player.global_position + player.linear_velocity)
 	point_vec = player.get_global_mouse_position() - player.position
 	if point_vec.length() > max_kick_force:
 		point_vec = point_vec.normalized()*max_kick_force
 	
 	if Input.is_action_just_pressed("click") and player.kick_ray.is_colliding():
 		kick_off()
-		
+	
+	player.tools.global_rotation = 0.0
 	player.tool_2.setvector(player.linear_velocity)
-	player.tools.visible = true
-	player.tools.position = player.position
 	player.tool_3.setvector(point_vec)
 
 	player.kick_ray.look_at(player.get_global_mouse_position())
@@ -39,7 +40,11 @@ func physics_update(delta: float):
 		player.gravity_lock = true
 		player.touch_timer.start()
 		Transitioned.emit(self,"PlayerGravity")
+		
 
+func forces_update(state: PhysicsDirectBodyState2D):
+	if player.align_vec:
+		player.global_rotation = player.align_vec.angle()
 
 func kick_off():
 	player.paper_character.set_animation("Kick")

@@ -31,6 +31,7 @@ var latched := false
 var GadgetLock = false
 var gravity_lock = false
 var buffered_knockback : Vector2
+var align_vec : Vector2
 
 func _physics_process(delta: float) -> void:
 	#if state_machine.current_state.name == "PlayerZeroG":
@@ -38,15 +39,20 @@ func _physics_process(delta: float) -> void:
 	grabber_logic()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	state_machine.remote_intigrate_forces(state)
+	#if align_vec:
+		#global_rotation = align_vec.angle()
 	if grabbing:
 		if(state.get_contact_count() >= 1):
 			print("collision touch")
-			if state.get_contact_collider_object(0).is_in_group("Grab"):
-				paper_character.set_animation("Grab")
-				rotation = state.get_contact_local_normal(0).angle()
-				pin_joint_2d.node_b = state.get_contact_collider_object(0).get_path()
-				latched_object = state.get_contact_collider_object(0)
-				latched = true
+			#if state.get_contact_collider_object(0).is_in_group("Grab"):
+				#paper_character.set_animation("Grab")
+				#rotation = state.get_contact_local_normal(0).angle()
+				#pin_joint_2d.node_b = state.get_contact_collider_object(0).get_path()
+				#latched_object = state.get_contact_collider_object(0)
+				#latched = true
+				
+				
 		##if its a solid object
 		#if state.get_contact_collider_object(0) is not RigidBody2D:
 			#var normal = state.get_contact_local_normal(0)
@@ -64,10 +70,11 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 			
 
 func _on_grabber_body_entered(body: Node2D) -> void:
-	if grabbing:
-		pin_joint_2d.node_b = body.get_path()
-		latched_object = body
-		latched = true
+	pass
+	#if grabbing:
+		#pin_joint_2d.node_b = body.get_path()
+		#latched_object = body
+		#latched = true
 
 func grabber_logic():
 	if !latched:
@@ -157,5 +164,16 @@ func _on_pain_partical_finished() -> void:
 	freeze = false
 	apply_central_impulse(buffered_knockback)
 
-func _on_touch_detection_body_entered(body: Node2D) -> void:
-	pass
+func touch_grabbable(obj:GripSurface, mount:Node2D, align:Vector2):
+	print(obj.name)
+	if grabbing:
+		latched_object = obj
+		position = mount.global_position
+		align_vec = align
+		
+		global_rotation = align.angle()
+		call_deferred("reparent", mount)
+		paper_character.set_animation("Grab")
+		set_deferred("freeze",true)
+		
+	

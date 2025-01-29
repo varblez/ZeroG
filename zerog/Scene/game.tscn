@@ -1,8 +1,7 @@
-[gd_scene load_steps=18 format=4 uid="uid://b773m64noiy4h"]
+[gd_scene load_steps=17 format=4 uid="uid://b773m64noiy4h"]
 
 [ext_resource type="PackedScene" uid="uid://da8nishh770st" path="res://Scene/gravity_field.tscn" id="1_l5ibq"]
 [ext_resource type="Texture2D" uid="uid://bbg4o8uj4jgo0" path="res://Assets/sci-fi-tileset.png" id="1_xs0qe"]
-[ext_resource type="PackedScene" uid="uid://dg2yrle8wb5ro" path="res://Scene/tool.tscn" id="3_lqcfq"]
 [ext_resource type="TileSet" uid="uid://c2xhfm8pm58e6" path="res://Assets/game.tres" id="3_nuqse"]
 [ext_resource type="PackedScene" uid="uid://5gg4eiw4wwpp" path="res://Scene/box.tscn" id="4_7rcon"]
 [ext_resource type="FontFile" uid="uid://bgp5b5oanyybr" path="res://Assets/PixelOperator8.ttf" id="6_f82jc"]
@@ -126,20 +125,10 @@ rotation = 0.560653
 position = Vector2(313, 70)
 rotation = 0.560653
 
-[node name="Player" parent="." node_paths=PackedStringArray("tools", "tool_2", "tool_3", "vent") instance=ExtResource("6_uotso")]
+[node name="Player" parent="." node_paths=PackedStringArray("vent") instance=ExtResource("6_uotso")]
 z_index = 1
 position = Vector2(42, 258)
-tools = NodePath("../Tools")
-tool_2 = NodePath("../Tools/Tool2")
-tool_3 = NodePath("../Tools/Tool3")
 vent = NodePath("../vent")
-
-[node name="Tools" type="Node2D" parent="."]
-
-[node name="Tool2" parent="Tools" instance=ExtResource("3_lqcfq")]
-
-[node name="Tool3" parent="Tools" instance=ExtResource("3_lqcfq")]
-color = Color(0.162617, 0.43364, 1, 1)
 
 [node name="Box4" parent="." instance=ExtResource("9_066y3")]
 position = Vector2(338, 117)
