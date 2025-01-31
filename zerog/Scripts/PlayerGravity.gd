@@ -1,7 +1,6 @@
 extends State
 class_name PlayerGravity
 
-@export var player : Player
 @export var SPEED = 1500.0
 @export var move_speed_max = 120.0
 @export var JUMP_VELOCITY = 9000.0
@@ -25,5 +24,5 @@ func physics_update(_delta : float):
 	
 	if Input.is_action_just_pressed("gravity") and not player.gravity_lock:
 		player.gravity_lock = true
-		player.touch_timer.start()
+		player.gravity_timer.start()
 		Transitioned.emit(self,"PlayerZeroG")

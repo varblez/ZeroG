@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://b0l0vkd28nbbc"]
+[gd_scene load_steps=14 format=3 uid="uid://b0l0vkd28nbbc"]
 
 [ext_resource type="Script" path="res://Scripts/player_2.gd" id="1_nr27m"]
 [ext_resource type="PackedScene" uid="uid://dd1ju8y8qsl6r" path="res://Scene/paper_character.tscn" id="3_1416j"]
 [ext_resource type="PackedScene" uid="uid://dxir31mdsb3kt" path="res://Scene/velocity_label.tscn" id="3_kh5ib"]
 [ext_resource type="Script" path="res://Scripts/state_machine.gd" id="5_syr2t"]
 [ext_resource type="Script" path="res://Scripts/PlayerZeroG.gd" id="6_wvssg"]
+[ext_resource type="Script" path="res://Scripts/player_grip.gd" id="7_13lga"]
 [ext_resource type="Script" path="res://Scripts/PlayerGravity.gd" id="7_iqmx1"]
 [ext_resource type="Script" path="res://Scripts/health_component.gd" id="8_xdf5k"]
 [ext_resource type="PackedScene" uid="uid://dg2yrle8wb5ro" path="res://Scene/tool.tscn" id="9_080q6"]
@@ -18,15 +19,9 @@ bounce = 0.1
 radius = 9.00001
 height = 46.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1knrq"]
-radius = 3.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_q5u0b"]
-radius = 7.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rjidc"]
-radius = 12.0
-height = 52.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rdao7"]
+radius = 9.0
+height = 46.0
 
 [node name="Player" type="RigidBody2D" node_paths=PackedStringArray("tools", "tool_2", "tool_3", "health")]
 collision_layer = 2
@@ -58,32 +53,13 @@ offset_top = -16.0
 offset_right = 36.0
 offset_bottom = -8.0
 
-[node name="TouchTimer" type="Timer" parent="."]
+[node name="GravityTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
 
 [node name="KickRay" type="RayCast2D" parent="."]
-target_position = Vector2(-34, 0)
+target_position = Vector2(-37, 0)
 collision_mask = 13
-
-[node name="Grabber" type="Area2D" parent="."]
-position = Vector2(2, 0)
-collision_layer = 2
-collision_mask = 20
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Grabber"]
-position = Vector2(6, 0)
-shape = SubResource("CircleShape2D_1knrq")
-
-[node name="Muzzle" type="Marker2D" parent="Grabber"]
-position = Vector2(9, -2)
-
-[node name="PinJoint2D" type="PinJoint2D" parent="."]
-position = Vector2(8, 0)
-node_a = NodePath("..")
-bias = 0.714
-disable_collision = false
-softness = 0.01
 
 [node name="Rays" type="Node2D" parent="."]
 
@@ -115,6 +91,10 @@ player = NodePath("../..")
 script = ExtResource("7_iqmx1")
 player = NodePath("../..")
 
+[node name="PlayerGrip" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("7_13lga")
+player = NodePath("../..")
+
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("8_xdf5k")
 
@@ -125,7 +105,8 @@ script = ExtResource("9_jtpco")
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
-shape = SubResource("CircleShape2D_q5u0b")
+rotation = 1.57079
+shape = SubResource("CapsuleShape2D_rdao7")
 
 [node name="PainPartical" type="CPUParticles2D" parent="."]
 emitting = false
@@ -137,13 +118,6 @@ gravity = Vector2(0, 0)
 initial_velocity_min = 78.21
 initial_velocity_max = 351.96
 
-[node name="TouchDetection" type="Area2D" parent="."]
-collision_mask = 5
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TouchDetection"]
-rotation = 1.57079
-shape = SubResource("CapsuleShape2D_rjidc")
-
 [node name="Tools" type="Node2D" parent="."]
 
 [node name="Tool2" parent="Tools" instance=ExtResource("9_080q6")]
@@ -151,8 +125,6 @@ shape = SubResource("CapsuleShape2D_rjidc")
 [node name="Tool3" parent="Tools" instance=ExtResource("9_080q6")]
 color = Color(0.162617, 0.43364, 1, 1)
 
-[connection signal="timeout" from="TouchTimer" to="." method="_on_touch_timer_timeout"]
-[connection signal="body_entered" from="Grabber" to="." method="_on_grabber_body_entered"]
+[connection signal="timeout" from="GravityTimer" to="." method="_on_gravity_timer_timeout"]
 [connection signal="hit" from="HurtboxComponent" to="." method="_on_hurtbox_component_hit"]
 [connection signal="finished" from="PainPartical" to="." method="_on_pain_partical_finished"]
-[connection signal="body_entered" from="TouchDetection" to="." method="_on_touch_detection_body_entered"]

@@ -3,6 +3,8 @@ extends Node2D
 @export var initial_state : State
 var states : Dictionary = {}
 var current_state : State
+var grip_surface : GripSurface
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,6 +31,11 @@ func _physics_process(delta: float) -> void:
 func remote_intigrate_forces(state: PhysicsDirectBodyState2D):
 	if current_state:
 		current_state.forces_update(state)
+
+func on_grab(grab_obj : GripSurface):
+	grip_surface = grab_obj
+	if current_state:
+		current_state.grab(grab_obj)
 
 func on_child_transitioned(state, new_state_name):
 	if state != current_state:

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw6vhv1fv6u7r"]
+
+[ext_resource type="Script" path="res://Scene/grip_surface.gd" id="1_o3blc"]
+[ext_resource type="PackedScene" uid="uid://dg2yrle8wb5ro" path="res://Scene/tool.tscn" id="2_22b86"]
+[ext_resource type="Texture2D" uid="uid://88vegplvy116" path="res://Assets/knight hand.png" id="2_ptps2"]
+
+[node name="Grip Surface" type="Area2D"]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("1_o3blc")
+alignment_vector = Vector2(0, -1)
+
+[node name="Player Position" type="Node2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="KnightHand" type="Sprite2D" parent="Player Position"]
+texture = ExtResource("2_ptps2")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+
+[node name="Tool2" parent="." instance=ExtResource("2_22b86")]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -7,6 +7,7 @@ extends Node2D
 @onready var jaw_flip: Polygon2D = $"Polygons/Jaw Flip"
 @onready var arm_r_target: Marker2D = $"IKTargets/ArmR Target"
 @onready var arm_l_target: Marker2D = $"IKTargets/ArmL Target"
+@onready var arm_l_end: Marker2D = $"Skeleton2D/Hips/Torso/ArmL/ForeArmL/ArmL End"
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -33,3 +34,6 @@ func _process(delta: float) -> void:
 
 func set_animation(animation : String):
 	animation_player.play(animation)
+
+func get_left_hand_pos() -> Vector2:
+	return arm_l_end.position

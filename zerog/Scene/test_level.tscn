@@ -33,7 +33,7 @@ rotation = 3.14159
 
 [node name="Handle2" parent="." instance=ExtResource("6_fd4fu")]
 position = Vector2(259, 122)
-rotation = 1.5708
+rotation = 1.96144
 
 [node name="Handle3" parent="." instance=ExtResource("6_fd4fu")]
 position = Vector2(111, 105)

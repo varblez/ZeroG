@@ -942,6 +942,7 @@ polygons = [PackedInt32Array(11, 18, 12), PackedInt32Array(18, 13, 12), PackedIn
 internal_vertex_count = 2
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
+visible = false
 
 [node name="Hips" type="Bone2D" parent="Skeleton2D"]
 position = Vector2(-18, 163)
@@ -971,7 +972,7 @@ metadata/_local_pose_override_enabled_ = true
 
 [node name="ForeArmR" type="Bone2D" parent="Skeleton2D/Hips/Torso/ArmR"]
 position = Vector2(102.591, 0.244366)
-rotation = 0.157384
+rotation = -2.15574
 rest = Transform2D(0.999979, 0.00649719, -0.00649719, 0.999979, 102.591, 0.244366)
 auto_calculate_length_and_angle = false
 length = 155.257
@@ -1003,20 +1004,20 @@ rotation = -1.36217
 
 [node name="ThighR" type="Bone2D" parent="Skeleton2D/Hips"]
 position = Vector2(-10.0001, -56)
-rotation = 1.22545
+rotation = 3.09245
 scale = Vector2(0.999999, 0.999999)
 rest = Transform2D(-0.999232, -0.039167, 0.039167, -0.999232, -10.0001, -56)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="ShinR" type="Bone2D" parent="Skeleton2D/Hips/ThighR"]
 position = Vector2(93.3839, -1.20692)
-rotation = 2.52678
+rotation = -0.11809
 rest = Transform2D(0.98775, -0.156048, 0.156048, 0.98775, 93.3839, -1.20692)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="FootR" type="Bone2D" parent="Skeleton2D/Hips/ThighR/ShinR"]
 position = Vector2(115.773, 11.5585)
-rotation = -2.15154
+rotation = -0.496493
 rest = Transform2D(0.144123, -0.98956, 0.98956, 0.144123, 115.773, 11.5585)
 auto_calculate_length_and_angle = false
 length = 92.814
@@ -1024,21 +1025,20 @@ bone_angle = 0.0
 
 [node name="ThighL" type="Bone2D" parent="Skeleton2D/Hips"]
 position = Vector2(1.0001, 44)
-rotation = 0.896854
-scale = Vector2(1, 1)
+rotation = 0.588132
 rest = Transform2D(-0.999989, -0.00455053, 0.00455053, -0.999989, 1.0001, 44)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="ShinL" type="Bone2D" parent="Skeleton2D/Hips/ThighL"]
 position = Vector2(93.3839, -1.20692)
-rotation = 2.15708
+rotation = 2.14059
 scale = Vector2(1, 1)
 rest = Transform2D(0.990038, -0.1408, 0.1408, 0.990038, 93.3839, -1.20692)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="FootL" type="Bone2D" parent="Skeleton2D/Hips/ThighL/ShinL"]
 position = Vector2(115.773, 11.5585)
-rotation = -1.48013
+rotation = -1.63395
 rest = Transform2D(0.155988, -0.987759, 0.987759, 0.155988, 115.773, 11.5585)
 auto_calculate_length_and_angle = false
 length = 92.814
