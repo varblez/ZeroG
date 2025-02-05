@@ -29,3 +29,24 @@ rotation = 4.71238
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Grip Surface" groups=["Grab"]]
 shape = SubResource("RectangleShape2D_6a5pr")
+
+[node name="Grip Surface3" parent="." instance=ExtResource("2_vcw0a")]
+position = Vector2(26, 0)
+rotation = 7.85397
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grip Surface3" groups=["Grab"]]
+shape = SubResource("RectangleShape2D_6a5pr")
+
+[node name="Grip Surface2" parent="." instance=ExtResource("2_vcw0a")]
+position = Vector2(0, -26)
+rotation = 6.28318
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grip Surface2" groups=["Grab"]]
+shape = SubResource("RectangleShape2D_6a5pr")
+
+[node name="Grip Surface4" parent="." instance=ExtResource("2_vcw0a")]
+position = Vector2(0, 26)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grip Surface4" groups=["Grab"]]
+shape = SubResource("RectangleShape2D_6a5pr")

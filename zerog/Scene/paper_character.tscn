@@ -32,7 +32,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(46, 45)]
+"values": [Vector2(64, 30)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -956,7 +956,7 @@ rest = Transform2D(1, 0, 0, 1, 43, -9.0001)
 [node name="Head" type="Bone2D" parent="Skeleton2D/Hips/Torso"]
 position = Vector2(189, 3.99958)
 rotation = -0.00858809
-scale = Vector2(0.296658, 0.313888)
+scale = Vector2(0.296658, 0.313887)
 rest = Transform2D(0.528309, -0.00453439, 0.00497861, 0.580066, 189, 3.99958)
 auto_calculate_length_and_angle = false
 length = 160.613
@@ -985,13 +985,14 @@ rotation = -1.50883
 
 [node name="ArmL" type="Bone2D" parent="Skeleton2D/Hips/Torso"]
 position = Vector2(143, 75.9997)
-rotation = 2.613
+rotation = 1.46336
+scale = Vector2(1, 1)
 rest = Transform2D(-0.991222, 0.132211, -0.132211, -0.991222, 143, 75.9997)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="ForeArmL" type="Bone2D" parent="Skeleton2D/Hips/Torso/ArmL"]
 position = Vector2(95.9036, -4.41541)
-rotation = -2.22458
+rotation = -0.0742231
 rest = Transform2D(0.999978, -0.00667878, 0.00667878, 0.999978, 95.9036, -4.41541)
 auto_calculate_length_and_angle = false
 length = 139.188
@@ -1017,7 +1018,7 @@ metadata/_local_pose_override_enabled_ = true
 
 [node name="FootR" type="Bone2D" parent="Skeleton2D/Hips/ThighR/ShinR"]
 position = Vector2(115.773, 11.5585)
-rotation = -0.496493
+rotation = -0.790463
 rest = Transform2D(0.144123, -0.98956, 0.98956, 0.144123, 115.773, 11.5585)
 auto_calculate_length_and_angle = false
 length = 92.814
@@ -1025,20 +1026,21 @@ bone_angle = 0.0
 
 [node name="ThighL" type="Bone2D" parent="Skeleton2D/Hips"]
 position = Vector2(1.0001, 44)
-rotation = 0.588132
+rotation = 2.77482
 rest = Transform2D(-0.999989, -0.00455053, 0.00455053, -0.999989, 1.0001, 44)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="ShinL" type="Bone2D" parent="Skeleton2D/Hips/ThighL"]
 position = Vector2(93.3839, -1.20692)
-rotation = 2.14059
+rotation = 0.226155
 scale = Vector2(1, 1)
 rest = Transform2D(0.990038, -0.1408, 0.1408, 0.990038, 93.3839, -1.20692)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="FootL" type="Bone2D" parent="Skeleton2D/Hips/ThighL/ShinL"]
 position = Vector2(115.773, 11.5585)
-rotation = -1.63395
+rotation = -0.89318
+scale = Vector2(1, 1)
 rest = Transform2D(0.155988, -0.987759, 0.987759, 0.155988, 115.773, 11.5585)
 auto_calculate_length_and_angle = false
 length = 92.814
@@ -1110,6 +1112,7 @@ bone_node = NodePath("../../../Hips/ThighL/ShinL/FootL")
 libraries = {
 "": SubResource("AnimationLibrary_yiksm")
 }
+autoplay = "Floating"
 
 [node name="IKTargets" type="Node2D" parent="."]
 

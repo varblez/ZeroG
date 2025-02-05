@@ -7,8 +7,9 @@ class_name GripSurface
 
 
 func _physics_process(delta: float) -> void:
-	alignment_vector = (player_position.position - position).normalized()
-	tool_2.setvector(alignment_vector*20)
+	alignment_vector = (player_position.global_position - global_position).normalized()
+	tool_2.global_rotation = Vector2.RIGHT.angle()
+	tool_2.setvector(alignment_vector * 20)
 
 func _on_body_entered(body: Node2D) -> void:
 	print(alignment_vector)

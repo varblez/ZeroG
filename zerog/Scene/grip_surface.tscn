@@ -11,13 +11,15 @@ script = ExtResource("1_o3blc")
 alignment_vector = Vector2(0, -1)
 
 [node name="Player Position" type="Node2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(0, -21)
 
 [node name="KnightHand" type="Sprite2D" parent="Player Position"]
+visible = false
 texture = ExtResource("2_ptps2")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
 
 [node name="Tool2" parent="." instance=ExtResource("2_22b86")]
+visible = false
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

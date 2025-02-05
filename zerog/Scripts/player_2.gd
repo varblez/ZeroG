@@ -13,6 +13,12 @@ var BULLET = preload("res://Scene/bullet.tscn")
 @onready var state_machine: Node2D = $StateMachine
 @onready var pain_partical: CPUParticles2D = $PainPartical
 @onready var paper_character: Node2D = $PaperCharacter
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var front_ray: RayCast2D = $KRays/FrontRay
+@onready var back_ray: RayCast2D = $KRays/BackRay
+@onready var head_ray_r: RayCast2D = $KRays/HeadRayR
+@onready var head_ray_l: RayCast2D = $KRays/HeadRayL
+
 #external nodes added in the inspector
 @export var tools: Node2D
 @export var tool_2: VectorTool
@@ -32,6 +38,18 @@ var buffered_knockback : Vector2
 func _physics_process(delta: float) -> void:
 	#if state_machine.current_state.name == "PlayerZeroG":
 		#look_at(global_position + linear_velocity)
+	if front_ray.is_colliding():
+		paper_character.arm_l_target.global_position = front_ray.get_collision_point()
+		
+	elif back_ray.is_colliding():
+		paper_character.arm_l_target.global_position = back_ray.get_collision_point()
+	elif head_ray_l.is_colliding() or head_ray_r.is_colliding():
+		if head_ray_l.is_colliding():
+			paper_character.arm_l_target.global_position = head_ray_l.get_collision_point()
+		if head_ray_r.is_colliding():
+			paper_character.arm_r_target.global_position = head_ray_r.get_collision_point()
+	else:
+		paper_character.reset_targets()
 	grabber_logic()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
@@ -132,3 +150,12 @@ func touch_grabbable(obj:GripSurface, mount:Node2D, align:Vector2):
 
 func _on_gravity_timer_timeout() -> void:
 	gravity_lock = false
+
+
+func _on_player_grip_collide_toggle(add : bool, obj) -> void:
+	collision_shape_2d.set_deferred("Disable",!add)
+	#if obj is PhysicsBody2D:
+		#if add:
+			#add_collision_exception_with(obj)
+		#else:
+			#remove_collision_exception_with(obj)

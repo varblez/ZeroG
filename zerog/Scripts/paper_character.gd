@@ -19,9 +19,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	head_target.global_position = get_global_mouse_position()
-	arm_l_target.global_position = get_global_mouse_position()
+	#arm_r_target.global_position = get_global_mouse_position()
 	if head_target.position.x < 0:
-		scale.x = -scale.x
+		#scale.x = -scale.x
 		head.hide()
 		jaw.hide()
 		head_flip.show()
@@ -37,3 +37,7 @@ func set_animation(animation : String):
 
 func get_left_hand_pos() -> Vector2:
 	return arm_l_end.position
+
+func reset_targets():
+	arm_r_target.position = Vector2(12.0,-32.5)
+	arm_l_target.position = Vector2(132.0,-72.5)

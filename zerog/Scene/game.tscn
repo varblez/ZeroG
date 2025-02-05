@@ -106,10 +106,6 @@ tile_set = ExtResource("3_nuqse")
 [node name="vent" parent="." instance=ExtResource("10_ysqt1")]
 position = Vector2(28, 257)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(288, 162)
-zoom = Vector2(2, 2)
-
 [node name="Box" parent="." instance=ExtResource("4_7rcon")]
 position = Vector2(260, 53)
 rotation = -0.617029
@@ -119,7 +115,7 @@ position = Vector2(483, 96)
 rotation = -1.21456
 
 [node name="Box3" parent="." instance=ExtResource("4_7rcon")]
-position = Vector2(311, 236)
+position = Vector2(311, 198)
 rotation = 0.560653
 
 [node name="Box5" parent="." instance=ExtResource("4_7rcon")]
@@ -128,8 +124,12 @@ rotation = 0.560653
 
 [node name="Player" parent="." node_paths=PackedStringArray("vent") instance=ExtResource("6_uotso")]
 z_index = 1
-position = Vector2(238, 145)
+position = Vector2(45, 258)
 vent = NodePath("../vent")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
 
 [node name="Box4" parent="." instance=ExtResource("9_066y3")]
 position = Vector2(338, 117)

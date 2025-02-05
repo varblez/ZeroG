@@ -31,6 +31,7 @@ physics_material_override = SubResource("PhysicsMaterial_pklmf")
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 4
+linear_damp_mode = 1
 script = ExtResource("1_nr27m")
 tools = NodePath("Tools")
 tool_2 = NodePath("Tools/Tool2")
@@ -79,6 +80,33 @@ target_position = Vector2(-3, 0)
 position = Vector2(0, -8)
 target_position = Vector2(0, -3)
 
+[node name="KRays" type="Node2D" parent="."]
+
+[node name="HeadRayR" type="RayCast2D" parent="KRays"]
+position = Vector2(6, -9)
+target_position = Vector2(25, 1)
+collision_mask = 5
+
+[node name="HeadRayL" type="RayCast2D" parent="KRays"]
+position = Vector2(6, 9)
+target_position = Vector2(25, -1)
+collision_mask = 5
+
+[node name="FrontRay" type="RayCast2D" parent="KRays"]
+position = Vector2(0, 9)
+target_position = Vector2(0, 20)
+collision_mask = 5
+
+[node name="FootRay" type="RayCast2D" parent="KRays"]
+position = Vector2(-23, 0)
+target_position = Vector2(-15, 0)
+collision_mask = 5
+
+[node name="BackRay" type="RayCast2D" parent="KRays"]
+position = Vector2(-5, -9)
+target_position = Vector2(0, -15)
+collision_mask = 5
+
 [node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("5_syr2t")
 initial_state = NodePath("PlayerZeroG")
@@ -126,5 +154,6 @@ initial_velocity_max = 351.96
 color = Color(0.162617, 0.43364, 1, 1)
 
 [connection signal="timeout" from="GravityTimer" to="." method="_on_gravity_timer_timeout"]
+[connection signal="CollideToggle" from="StateMachine/PlayerGrip" to="." method="_on_player_grip_collide_toggle"]
 [connection signal="hit" from="HurtboxComponent" to="." method="_on_hurtbox_component_hit"]
 [connection signal="finished" from="PainPartical" to="." method="_on_pain_partical_finished"]
